@@ -70,39 +70,59 @@ sudo /opt/lampp/manager-linux-x64.run
 1. **สร้างไฟล์สคริปต์**
    สร้างไฟล์ชื่อ `manage-services.sh` ด้วยเนื้อหาดังนี้:
    ```bash
-
    #!/bin/bash
 
-   # ใส่รหัสเพื่อทำการใช้ script
-   echo "Please enter your sudo password to continue..."
-   sudo -v
+   # Function to check sudo status
+   check_sudo() {
+    # Check if sudo is available without a password
+    sudo -n true 2>/dev/null
+    if [ $? -eq 0 ]; then
+        return 0 # Sudo is available without password
+    else
+        return 1 # Sudo needs a password
+    fi
+   }
 
-   # ทำการตรวจสอบรหัสผ่าน 
-   if [ $? -eq 0 ]; then
-    sleep 1
-
-    # Function : หยุดการทำงาน
-    stop_service() {
-        local service_name=$1
-        echo "Stopping $service_name..."
-        sudo systemctl stop "$service_name"
-    }
-
-    # Stop services
-    stop_service "apache2"
-    stop_service "mysql"
-
-    # Delay 
-    echo "Waiting a second before starting XAMPP manager..."
-    sleep 1.5
-
-    # Start XAMPP manager
-    echo "XAMPP is running!..."
-    sudo /opt/lampp/manager-linux-x64.run
+   # Ensure sudo privileges
+   if check_sudo; then
+    echo "Sudo access is already available."
    else
-    echo "Invalid sudo password. Exiting script."
-    exit 1
+    echo "Please enter your sudo password to continue..."
+    sudo -v
+    if [ $? -ne 0 ]; then
+        echo "Invalid sudo password. Exiting script."
+        exit 1
+    fi
    fi
+
+   # Reload systemd to prevent warnings
+   echo "Reloading systemd daemon to ensure up-to-date service configurations..."
+   sudo systemctl daemon-reload
+
+   sleep 1
+
+   # Function to stop a service
+   stop_service() {
+    local service_name=$1
+    echo "Stopping $service_name..."
+    sudo systemctl stop "$service_name"
+   }
+
+   # Stop services
+   stop_service "apache2"
+   stop_service "mysql"
+
+   # Delay for better user feedback
+   echo "Waiting a second before starting XAMPP manager..."
+   sleep 1.5
+
+   # Start XAMPP manager
+   echo "Starting XAMPP manager..."
+   sudo /opt/lampp/manager-linux-x64.run
+
+   # Final message
+   echo "XAMPP is now running! If you encounter issues, try restarting all services using the command: 'sudo systemctl restart apache2 mysql'."
+
    ```
 
 2. **ให้สิทธิ์การรันสคริปต์**
@@ -116,13 +136,15 @@ sudo /opt/lampp/manager-linux-x64.run
    ```
 
 <img src='./setup/after-run-script.png' alt='ผลลัพธ์การรันสคริปต์'></img>
+<p align="center">หากยังพบปัญหาให้ลองกด <strong>Restart All</strong> 🔄 อีกครั้ง.</p>
+
 ### 📊 ขั้นตอนที่ 6: แดชบอร์ด
 เข้าถึงแดชบอร์ด XAMPP และ phpMyAdmin:
 ```bash
 http://localhost/phpmyadmin/
 ```
 <img src='./setup/dashboard.png' alt='Dashboard'></img>
----
+
 ---
 
 ## 📚 เครดิตและแหล่งอ้างอิง
