@@ -70,26 +70,39 @@ sudo /opt/lampp/manager-linux-x64.run
 1. **สร้างไฟล์สคริปต์**
    สร้างไฟล์ชื่อ `manage-services.sh` ด้วยเนื้อหาดังนี้:
    ```bash
+
    #!/bin/bash
 
-   # ฟังก์ชั่นหยุดdkime'ko
-   stop_service() {
-       local service_name=$1
-       echo "กำลังหยุด $service_name..."
-       sudo systemctl stop "$service_name"
-   }
+   # ใส่รหัสเพื่อทำการใช้ script
+   echo "Please enter your sudo password to continue..."
+   sudo -v
 
-   # หยุดการทำงานของ apache และ mysql
-   stop_service "apache2"
-   stop_service "mysql"
+   # ทำการตรวจสอบรหัสผ่าน 
+   if [ $? -eq 0 ]; then
+    sleep 1
 
-   # หน่วงเวลาเพื่อแสดงผลให้ผู้ใช้
-   echo "รอ 1 วินาทีก่อนเริ่ม XAMPP manager..."
-   sleep 1
+    # Function : หยุดการทำงาน
+    stop_service() {
+        local service_name=$1
+        echo "Stopping $service_name..."
+        sudo systemctl stop "$service_name"
+    }
 
-   # เริ่ม XAMPP manager
-   echo "กำลังเริ่ม XAMPP manager..."
-   sudo /opt/lampp/manager-linux-x64.run
+    # Stop services
+    stop_service "apache2"
+    stop_service "mysql"
+
+    # Delay 
+    echo "Waiting a second before starting XAMPP manager..."
+    sleep 1.5
+
+    # Start XAMPP manager
+    echo "XAMPP is running!..."
+    sudo /opt/lampp/manager-linux-x64.run
+   else
+    echo "Invalid sudo password. Exiting script."
+    exit 1
+   fi
    ```
 
 2. **ให้สิทธิ์การรันสคริปต์**

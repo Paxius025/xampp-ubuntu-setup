@@ -72,24 +72,36 @@ Create a script to automatically handle service conflicts and launch XAMPP:
    ```bash
    #!/bin/bash
 
-   # Function to stop a service
-   stop_service() {
-       local service_name=$1
-       echo "Stopping $service_name..."
-       sudo systemctl stop "$service_name"
-   }
+   # Request sudo password to verify if the user has sudo access
+   echo "Please enter your sudo password to continue..."
+   sudo -v
 
-   # Stop services
-   stop_service "apache2"
-   stop_service "mysql"
+   # Check if sudo was successful (i.e., password is correct)
+   if [ $? -eq 0 ]; then
+    sleep 1
 
-   # Delay for better user feedback
-   echo "Waiting for 1 second before starting XAMPP manager..."
-   sleep 1
+    # Function to stop a service
+    stop_service() {
+        local service_name=$1
+        echo "Stopping $service_name..."
+        sudo systemctl stop "$service_name"
+    }
 
-   # Start XAMPP manager
-   echo "Starting XAMPP manager..."
-   sudo /opt/lampp/manager-linux-x64.run
+    # Stop services
+    stop_service "apache2"
+    stop_service "mysql"
+
+    # Delay for better user feedback
+    echo "Waiting a second before starting XAMPP manager..."
+    sleep 1.5
+
+    # Start XAMPP manager
+    echo "XAMPP is running!..."
+    sudo /opt/lampp/manager-linux-x64.run
+   else
+    echo "Invalid sudo password. Exiting script."
+    exit 1
+   fi
    ```
 
 2. **Make Script Executable**
