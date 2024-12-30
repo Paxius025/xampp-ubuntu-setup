@@ -104,6 +104,13 @@ Create a script to automatically handle service conflicts and launch XAMPP:
 
 <img src='./setup/after-run-script.png' alt='Script Execution Result'></img>
 
+### 📊 Step 6: Dashboard
+Access the XAMPP dashboard and phpMyAdmin:
+```bash
+http://localhost/phpmyadmin/
+```
+
+<img src='./setup/dashboard.png' alt='Dashboard'></img>
 ---
 
 ## 📚 Credits and References
