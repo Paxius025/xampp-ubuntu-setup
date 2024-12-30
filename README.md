@@ -1,4 +1,8 @@
-# 🚀 How to install XAMPP in Ubuntu
+# 🚀 How to Install XAMPP on Ubuntu
+
+> A step-by-step guide for installing XAMPP on Ubuntu with convenience scripts and common troubleshooting solutions. Suitable for both beginners and developers.
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 [🇺🇸 English](./README.md) | [🇹🇭 ภาษาไทย](./README_th.md)
 
