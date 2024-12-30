@@ -24,7 +24,7 @@ Before installing XAMPP, ensure you have the following requirements:
 2. Download the latest version for Linux
 3. Save the installer file
 
-<img src='./XAMPP-For-Linux.png' alt='XAMPP Download Page'></img>
+<img src='./setup/XAMPP-For-Linux.png' alt='XAMPP Download Page'></img>
 
 ### 🔑 Step 2: Prepare Installation Package
 1. **Navigate to Downloads Directory**
@@ -37,7 +37,7 @@ Before installing XAMPP, ensure you have the following requirements:
    sudo chmod +x xampp-linux-*-installer.run
    ```
 
-<img src='./set-permission.png' alt='Setting Permissions'></img>
+<img src='./setup/set-permission.png' alt='Setting Permissions'></img>
 
 ### 🛠️ Step 3: Run Installation
 1. **Execute the Installer**
